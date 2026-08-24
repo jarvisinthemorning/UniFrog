@@ -42,10 +42,10 @@ The frontend provides:
   and log flushing through public `include/unifrog/` headers.
 - Compatibility with common MuOS `.muxthm` theme archives where practical.
 
-ROM browsing is directory-based and lazy. The browser enters the configured ROM
-root directly, shows immediate child directories as systems, and lists every
-regular file inside those directories instead of building an index or filtering
-by extension.
+ROM browsing is directory-based and lazy. The launcher Explore action enters
+the configured ROM root directly and initially shows its playable files. Press
+the left shoulder button to reveal or hide folders and the parent entry. This
+keeps the default path simple while retaining access to nested libraries.
 
 ROM settings are stored in `/unifrog_data/unifrog.ini` and can be edited by
 hand or through the frontend:

@@ -106,6 +106,14 @@ int frontend_input_handle_menu_navigation(struct frontend_state *fe,
       return 1;
    }
    if (unifrog_ui_pressed(&fe->ui, UNIFROG_UI_L)) {
+      if (fe->view == FRONTEND_VIEW_EXPLORE) {
+         char path[FRONTEND_MAX_PATH];
+
+         unifrog_text_copy(path, sizeof(path), fe->current_dir);
+         fe->explore_folders_hidden = !fe->explore_folders_hidden;
+         frontend_show_explore(fe, path);
+         return 1;
+      }
       for (unsigned i = 0; i < FRONTEND_ROWS; i++)
          move_selection(fe, -1);
       return 1;

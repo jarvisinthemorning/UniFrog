@@ -237,6 +237,7 @@ struct frontend_state {
    struct unifrog_media_tuning media_tuning;
    int sort_desc;
    int show_hidden;
+   int explore_folders_hidden;
    int folder_counts;
    int mixed_content;
    int display_empty_folder;

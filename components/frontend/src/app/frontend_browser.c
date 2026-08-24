@@ -68,6 +68,8 @@ static void add_dir_entry(struct frontend_state *fe, const char *dir,
       known_file = S_ISREG(st.st_mode);
    }
    if (known_dir) {
+      if (fe->explore_folders_hidden)
+         return;
       add_item(fe, name, "folder", FRONTEND_ITEM_DIR, full, NULL);
       return;
    }
@@ -98,6 +100,8 @@ static void add_rom_dir_entry(struct frontend_state *fe, const char *dir,
       known_file = S_ISREG(st.st_mode);
    }
    if (known_dir) {
+      if (fe->explore_folders_hidden)
+         return;
       add_item(fe, name, "folder", FRONTEND_ITEM_DIR, full, NULL);
       return;
    }
@@ -444,7 +448,8 @@ void frontend_show_explore(struct frontend_state *fe, const char *path)
    reset_items(fe, fe->title_include_root ? path : frontend_rom_title(fe, path));
    fe->view = FRONTEND_VIEW_EXPLORE;
    unifrog_text_copy(fe->current_dir, sizeof(fe->current_dir), path);
-   add_item(fe, "..", "back", FRONTEND_ITEM_DIR, "", NULL);
+   if (!fe->explore_folders_hidden)
+      add_item(fe, "..", "back", FRONTEND_ITEM_DIR, "", NULL);
    if (is_content_file(fe, path)) {
       frontend_set_status(fe, "content path; press A to launch");
       add_content_item(fe, frontend_basename(path), path);
@@ -468,8 +473,12 @@ void frontend_show_explore(struct frontend_state *fe, const char *path)
    }
    closedir(dir);
    sort_items(fe);
-   frontend_set_status(fe, limited ? "%u/%u entries" : "%u entries",
-      fe->item_count ? fe->item_count - 1u : 0u, seen);
+   if (fe->explore_folders_hidden)
+      frontend_set_status(fe, "L show folders");
+   else
+      frontend_set_status(fe, limited ? "%u/%u entries  L hide folders" :
+         "%u entries  L hide folders",
+         fe->item_count ? fe->item_count - 1u : 0u, seen);
    unifrog_log("frontend explore path=%s seen=%u items=%u limited=%d ms=%lu\n",
       path, seen, fe->item_count, limited,
       (unsigned long)(unifrog_perf_time_ms() - start_ms));

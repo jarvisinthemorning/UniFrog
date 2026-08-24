@@ -309,12 +309,14 @@ static int activate_typed_action(struct frontend_state *fe,
    case UNIFROG_FRONTEND_ACTION_EXPLORE_SD:
       frontend_parent_view_clear(fe);
       frontend_nav_reset(fe);
+      fe->explore_folders_hidden = 0;
       frontend_show_explore(fe, FRONTEND_ROOT);
       return 1;
    case UNIFROG_FRONTEND_ACTION_EXPLORE:
       frontend_parent_view_clear(fe);
       frontend_nav_reset(fe);
-      frontend_show_rom_systems(fe);
+      fe->explore_folders_hidden = 1;
+      frontend_show_explore(fe, frontend_rom_root(fe));
       return 1;
    case UNIFROG_FRONTEND_ACTION_HISTORY:
       frontend_parent_view_push(fe);
@@ -345,21 +347,25 @@ static int activate_typed_action(struct frontend_state *fe,
    case UNIFROG_FRONTEND_ACTION_EXPLORE_UNIFROG:
       frontend_parent_view_clear(fe);
       frontend_nav_reset(fe);
+      fe->explore_folders_hidden = 0;
       frontend_show_explore(fe, FRONTEND_DIST_ROOT);
       return 1;
    case UNIFROG_FRONTEND_ACTION_EXPLORE_BIOS:
       frontend_parent_view_clear(fe);
       frontend_nav_reset(fe);
+      fe->explore_folders_hidden = 0;
       frontend_show_explore(fe, FRONTEND_ROOT "/bios");
       return 1;
    case UNIFROG_FRONTEND_ACTION_EXPLORE_DATA:
       frontend_parent_view_clear(fe);
       frontend_nav_reset(fe);
+      fe->explore_folders_hidden = 0;
       frontend_show_explore(fe, FRONTEND_DATA_ROOT);
       return 1;
    case UNIFROG_FRONTEND_ACTION_EXPLORE_SAVES:
       frontend_parent_view_clear(fe);
       frontend_nav_reset(fe);
+      fe->explore_folders_hidden = 0;
       frontend_show_explore(fe, FRONTEND_DATA_ROOT "/saves");
       return 1;
    case UNIFROG_FRONTEND_ACTION_STORAGE_PROFILE:
